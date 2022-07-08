@@ -6,7 +6,7 @@
 *.iml
 out
 gen
+*.pyc
 
 # Project
 *.csv
-*.pyc
