@@ -9,3 +9,4 @@ gen
 
 # Project
 *.csv
+*.pyc
