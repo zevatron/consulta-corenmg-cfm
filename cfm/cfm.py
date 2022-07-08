@@ -1,18 +1,16 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions
 from time import sleep
 from random import randint
-
 import datetime
 import csv
 import cfm.constants as const
 import os
-import codecs
+
 
 class CFM(webdriver.Chrome):
     def __init__(self, teardown=False):
@@ -63,7 +61,6 @@ class CFM(webdriver.Chrome):
             pass
         else:
             aceita_cookie.click()
-
 
     def consulta_crm(self, crms, uf):
         registros = []
@@ -123,7 +120,7 @@ class CFM(webdriver.Chrome):
                 else:
                     grouped_crm[uf].append(crm)
 
-        with open('resultado_consulta_CFM.csv', 'w', newline='', encoding='windows-1252') as csvfilewriter:
+        with open(f'resultado_consulta_CFM_{hoje}.csv', 'w', newline='', encoding='windows-1252') as csvfilewriter:
             fields = ['nome', 'crm', 'uf', 'situacao', 'especialidade', 'data_hora_atualizacao']
             writer = csv.DictWriter(csvfilewriter, fieldnames=fields, delimiter=';')
             writer.writeheader()

@@ -4,7 +4,6 @@ from selenium.webdriver.chrome.options import Options
 from time import sleep
 from random import randint
 import csv
-
 import corenmg.constants as const
 import os
 import datetime
@@ -17,7 +16,7 @@ class CorenMG(webdriver.Chrome):
 
         options = Options()
         options.add_argument(f'user-agent={const.USERAGENTS[randint(0, len(const.USERAGENTS) - 1)]}')
-        # options.add_argument('--headless')
+        options.add_argument('--headless')
         options.add_argument('--disable-gpu')
         options.add_argument('--lang=pt_BR')
         options.add_argument('--no-sandbox')
@@ -103,9 +102,11 @@ class CorenMG(webdriver.Chrome):
 
     def gravar_consultas(self):
 
+        hoje = datetime.datetime.now().strftime("%Y%m%d")
+
         source = csv.DictReader(open('ENFERMEIROS.csv', newline='', encoding='utf-8-sig'), delimiter=';')
 
-        with open('resultado_consulta_COREN.csv', 'w', newline='', encoding='windows-1252') as csvfilewriter:
+        with open(f'resultado_consulta_COREN_{hoje}.csv', 'w', newline='', encoding='windows-1252') as csvfilewriter:
             fields = ['cpf', 'nome', 'cargo', 'coren', 'data_inscricao', 'data_cancelamento', 'status',
                       'data_hora_atualizacao']
             writer = csv.DictWriter(csvfilewriter, fieldnames=fields, delimiter=';')
