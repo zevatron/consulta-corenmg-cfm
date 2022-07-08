@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver import DesiredCapabilities
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from time import sleep
@@ -9,7 +10,7 @@ import os
 import datetime
 
 
-class CorenMG(webdriver.Chrome):
+class CorenMG(webdriver.Remote):
     def __init__(self, teardown=False):
 
         self._teardown = teardown
@@ -28,9 +29,9 @@ class CorenMG(webdriver.Chrome):
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-popup-blocking")
 
-        os.environ['PATH'] += os.pathsep + const.DRIVER_PATH
-
-        super(CorenMG, self).__init__(options=options)
+        super(CorenMG, self).__init__(command_executor='http://127.0.0.1:4444/wd/hub',
+                                      desired_capabilities=DesiredCapabilities.CHROME,
+                                      options=options)
 
         self.implicitly_wait(15)
         self.maximize_window()

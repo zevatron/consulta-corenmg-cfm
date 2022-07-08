@@ -12,12 +12,10 @@ import cfm.constants as const
 import os
 
 
-class CFM(webdriver.Chrome):
+class CFM(webdriver.Remote):
     def __init__(self, teardown=False):
         self.driver_path = const.DRIVER_PATH
         self.teardown = teardown
-        # self.env = const.ENV
-        os.environ['PATH'] += os.pathsep + self.driver_path
 
         options = Options()
         options.add_argument(f'user-agent={const.USERAGENTS[randint(0, len(const.USERAGENTS) - 1)]}')
@@ -33,7 +31,9 @@ class CFM(webdriver.Chrome):
         options.add_argument("--disable-extensions")
         options.add_argument("--disable-popup-blocking")
 
-        super(CFM, self).__init__(options=options, desired_capabilities=DesiredCapabilities.CHROME)
+        super(CFM, self).__init__(command_executor='http://127.0.0.1:4444/wd/hub',
+                                  desired_capabilities=DesiredCapabilities.CHROME,
+                                  options=options)
         self.implicitly_wait(15)
         self.maximize_window()
         self.set_window_size(1920, 1080)
